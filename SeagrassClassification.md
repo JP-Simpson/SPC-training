@@ -151,6 +151,36 @@ var training = groundTruth.filter(ee.Filter.gt('random', 0.4));
 var validation = groundTruth.filter(ee.Filter.lte('random', 0.4));
 ```
 
-##### Training the classifier and classifying the image
+At this stage, your code should look something like this:
+```javascript
+ADD CODE TO THIS POINT HERE
+```
+
+#### Training the classifier and classifying the image
+
+Now it is finally time to classify our image. First, we must train the classifier:
+```javascript
+var trainingRegions = S2masked.sampleRegions(training);
+var RF = ee.Classifier.smileRandomForest(100).train(trainingRegions, 'label');
+var classified = S2masked.classify(RF);
+```
+The first line of code creates training regions based on our point dataset. These contain the relevant spectral information needed for the classification algorithm to function. The second line creates a **classifier** object based on an algorithm called **Random Forest**. This classifier object is the algorithm we need to produce classification results. The third line classifies the image, producing an output called **classified**.
+
+We can now add the classified image to our map. Try visualising it with the following parameters:
+
+![Classification layer visualisation parameters](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ClassVisParam.png)
+
+Your layer should look something like this:
+
+![Initial classification output](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ClassInitialOutput.png)
+
+Remember what the classes 0-3 represent in this image:
+
+| Label | Cover class |
+|-------|-------------|
+|   0   | Unvegetated |
+|   1   |   Zostera   |
+|   2   |  Posidonia  |
+|   3   |    Algae    |
 
 ##### Cleaning up and analysing the classification results
