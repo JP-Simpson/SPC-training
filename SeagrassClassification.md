@@ -35,4 +35,13 @@ For full explanations of these functions, see the mangrove dieback exercise.
 
 Next, we will load two datasets into GEE - our field observations, and a study area boundary.
 
-Download the two shapefiles from
+Download the two shapefiles [here](https://github.com/JP-Simpson/SPC-training/tree/main/Seagrass%20Classification%20Data). Ensure you download all six related files for each shapefile.
+
+Now we will add these shapefiles as assets to GEE. Click on the **Assets** tab in the top left, then click **New > Shape files**
+
+![Assets tab in GEE](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/AssetsTab.png)
+
+In the **Upload a New Shape File Asset** window, click **Select**, then select the six associated files for the **GroundTruthData** shapefile. Click **Upload**, and the shapefile will appear in your **Assets** tab. Repeat this with the **WallisLakeBoundary** shapefile.
+
+![Shapefile upload](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ShapefileUpload.png)
+
