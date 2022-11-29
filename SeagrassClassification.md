@@ -114,9 +114,9 @@ var NDWI = S2median.normalizedDifference(['B3','B11']);
 ```
 Because water reflects green light and not SWIR light, this index produces high values (over 0) in water areas, and low values (below 0) in land areas. Now, we will create an image mask using this index:
 ```javascript
-var water = NDWI.gte(0.05);
+var water = NDWI.gte(0);
 ```
-This is a binary layer, with all areas with an NDWI greater than or equal to 0.05 equal to 1, and all areas with an NDWI less than 0.05 equal to 0.
+This is a binary layer. All areas that NDWI indicates to be water have the value of 1, while land areas have a value of 0.
 
 Now update the mask on our Sentinel-2 image:
 ```javascript
@@ -158,13 +158,15 @@ ADD CODE TO THIS POINT HERE
 
 #### Training the classifier and classifying the image
 
-Now it is finally time to classify our image. First, we must train the classifier:
+Now it is finally time to classify our image. First, we must train the classifier, then classify the image like this:
 ```javascript
-var trainingRegions = S2masked.sampleRegions(training);
+var trainingRegions = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).sampleRegions(training);
 var RF = ee.Classifier.smileRandomForest(100).train(trainingRegions, 'label');
-var classified = S2masked.classify(RF);
+var classified = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).classify(RF);
 ```
 The first line of code creates training regions based on our point dataset. These contain the relevant spectral information needed for the classification algorithm to function. The second line creates a **classifier** object based on an algorithm called **Random Forest**. This classifier object is the algorithm we need to produce classification results. The third line classifies the image, producing an output called **classified**.
+
+Note that we are again filtering bands from the image, this time to remove the SWIR Band 11. This is important because there is very low reflectance across all water areas in this band, so it can interfere with the classification process.
 
 We can now add the classified image to our map. Try visualising it with the following parameters:
 
@@ -183,4 +185,41 @@ Remember what the classes 0-3 represent in this image:
 |   2   |  Posidonia  |
 |   3   |    Algae    |
 
-##### Cleaning up and analysing the classification results
+Add your results and your original image to your map and symbolise them so that the data can be compared.
+
+At this stage, your code should look something like this:
+```javascript
+code
+```
+
+#### Cleaning up and analysing the classification results
+
+These results look generally quite good, but there is some clear "speckling" effects across the image. We can correct this by applying a filter to the output data:
+```javascript
+var classifiedFiltered = classified.focal_mode();
+```
+This function offers a relatively simple way of simplifying classification results. More complex methods are available, but they are not necessary in this case.
+
+Now, we can perform some analysis on our results. First, we should calculate an **error matrix**. This is a representation of the accuracy of our results, based on the **validation** data we set aside earlier.
+
+We do this by running the validation data through the classifier, and then using the errorMatrix function:
+```javascript
+validation = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7']).sampleRegions(validation);
+validation = validation.classify(RF);
+var errorMatrix = validation.errorMatrix('label', 'classification');
+print(errorMatrix,'Error Matrix');
+```
+This will print an error matrix in our console. Additionally, we can calculate overall accuracy and kappa coefficient for our data:
+```javascript
+var accuracy = errorMatrix.accuracy();
+var kappa = errorMatrix.kappa();
+print(accuracy,'Accuracy');
+print(kappa,'Kappa coefficient');
+```
+
+Finally, we can calculate the overall area of each class in our study area. To do this, we first need to calculate the area of a single pixel. Though our classification used both 10m and 20m spatial resolution data, our outputs are at the finer resolution of 10m.
+```javascript
+var pixelArea = ee.Number(10).pow(2);
+```
+
+
