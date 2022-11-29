@@ -130,6 +130,8 @@ Add your layer to your map, and set visualisation parameters. Try using the foll
 
 ![Visualisation parameters](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/VisParam.png)
 
+Don't forget to click **import** so you can import your visualisation parameters as a variable and use them again in the future.
+
 Your image should look something like this:
 
 ![Masked image](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/S2Masked.png)
@@ -198,6 +200,8 @@ We can now add the classified image to our map. Try visualising it with the foll
 
 ![Classification layer visualisation parameters](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ClassVisParam.png)
 
+Don't forget to click **import** so you can import your visualisation parameters as a variable and use them again in the future.
+
 Your layer should look something like this:
 
 ![Initial classification output](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ClassInitialOutput.png)
@@ -212,11 +216,6 @@ Remember what the classes 0-3 represent in this image:
 |   3   |    Algae    |
 
 Add your results and your original image to your map and symbolise them so that the data can be compared.
-
-At this stage, your code should look something like this:
-```javascript
-code
-```
 
 #### Cleaning up and analysing the classification results
 
@@ -256,7 +255,7 @@ print(areaChart,'Band sum values by class');
 ```
 At the end, your imports should look like this:
 
-
+![Final imports](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportIntoScript.png)
 
 The remained of your script should look like this:
 ```javascript
