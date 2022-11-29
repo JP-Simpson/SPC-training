@@ -126,9 +126,30 @@ The result of this will include only water areas. However, we have also included
 ```javascript
 S2masked = S2masked.clip(WallisLakeBoundary);
 ```
+Add your layer to your map, and set visualisation parameters. Try using the following parameters:
 
+![Visualisation parameters](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/VisParam.png)
 
-##### Dividing ground truth data into training and validation datasets
+Your image should look something like this:
+
+![Masked image](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/S2Masked.png)
+
+#### Dividing ground truth data into training and validation datasets
+
+Next, we want to divide our ground truth data into **training** and **validation** datasets. **Training** data will be used to train the classification algorithm, while **validation** data will be used to measure how accurate the classification was.
+
+*A note about ground truth data - In this instance, we are using field data which has not been captured randomly, but has been captured opportunistically. For more scientifically rigorous studies, we would prefer to use a sampling method such as stratified random sampling to gather our field data. In this case, we are making do with the data we have access to. Ask your instructor if you'd like to know more about this.*
+
+We will begin by associated a random number (between 0 and 1) with each record in our ground truth dataset:
+```javascript
+var groundTruth = GroundTruthData.randomColumn();
+```
+
+Then, based on these random numbers, we will divide the groundtruth dataset into 60% **training** data and 40% **validation** data:
+```javascript
+var training = groundTruth.filter(ee.Filter.gt('random', 0.4));
+var validation = groundTruth.filter(ee.Filter.lte('random', 0.4));
+```
 
 ##### Training the classifier and classifying the image
 
