@@ -17,4 +17,20 @@ As well as being popular for recreation, camping, and fishing, Wallis Lake is ho
 
 Two seagrass species are widespread within Wallis Lake: *Zostera capricorni* and *Posidonia australis*.
 
-*Z. capricorni* is a small, common, bright green, fast-growing species which grows in extensive beds all along the NSW coast. *P. australis* is larger, darker in colour, and grows in smaller patches. 
+*Z. capricorni* is a small, common, bright green, fast-growing species which grows in extensive beds all along the NSW coast. *P. australis* is larger, darker in colour, and grows in smaller patches. Various species of algae also grow in the estuary.
+
+We will use supervised image classification to distinguish areas of each of these species, as well as areas where the estuary floor is bare of vegetation, and areas with algae present.
+
+### Exercise instructions
+##### Getting started
+
+Open GEE code editor to a new script. **Save** your script as **WallisLakeClassification** or similar. **Remember to save your script regularly so you do not lose any work**.
+
+First, we will add a point to the map representing Wallis Lake, then centre our map on it.
+```javascript
+var WallisLake = ee.Geometry.Point([152.5, -32.28]);
+Map.centerObject(WallisLake, 12);
+```
+For full explanations of these functions, see the mangrove dieback exercise.
+
+Next, we will load two datasets into GEE - our field observations, and a study area boundary.
