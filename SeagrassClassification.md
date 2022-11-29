@@ -153,7 +153,33 @@ var validation = groundTruth.filter(ee.Filter.lte('random', 0.4));
 
 At this stage, your code should look something like this:
 ```javascript
-ADD CODE TO THIS POINT HERE
+//Setup
+var WallisLake = ee.Geometry.Point([152.5, -32.28]);
+Map.centerObject(WallisLake, 12);
+
+//Access imagecollection
+var S2 = ee.ImageCollection("COPERNICUS/S2_SR");
+
+//Filter imagecollection
+S2 = S2.filterBounds(WallisLake).filterDate('2018-12-01','2019-03-01').filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',10));
+
+//Calculate median image
+var S2median = S2.median()
+    .setDefaultProjection('EPSG:4326', null, 10)
+    .select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8','B11']);
+
+//Calculate NDWI and create mask
+var NDWI = S2median.normalizedDifference(['B3','B11']);
+var water = NDWI.gte(0);
+
+//Update median image mask
+var S2masked = S2median.updateMask(water);
+S2masked = S2masked.clip(WallisLakeBoundary);
+
+//Divide ground truth data into training and validation
+var groundTruth = GroundTruthData.randomColumn();
+var training = groundTruth.filter(ee.Filter.gt('random', 0.4));
+var validation = groundTruth.filter(ee.Filter.lte('random', 0.4));
 ```
 
 #### Training the classifier and classifying the image
@@ -204,7 +230,7 @@ Now, we can perform some analysis on our results. First, we should calculate an 
 
 We do this by running the validation data through the classifier, and then using the errorMatrix function:
 ```javascript
-validation = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7']).sampleRegions(validation);
+validation = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).sampleRegions(validation);
 validation = validation.classify(RF);
 var errorMatrix = validation.errorMatrix('label', 'classification');
 print(errorMatrix,'Error Matrix');
@@ -217,9 +243,83 @@ print(accuracy,'Accuracy');
 print(kappa,'Kappa coefficient');
 ```
 
-Finally, we can calculate the overall area of each class in our study area. To do this, we first need to calculate the area of a single pixel. Though our classification used both 10m and 20m spatial resolution data, our outputs are at the finer resolution of 10m.
+Finally, we can calculate the overall area of each class in our study area. This script produces a simplke chart showing the total area (in square metres) of all the classes in our results:
 ```javascript
-var pixelArea = ee.Number(10).pow(2);
+var areaChart = ui.Chart.image.byClass({
+  image: ee.Image.pixelArea().addBands(classifiedFiltered),
+  classBand: 'classification', 
+  region: WallisLakeBoundary,
+  scale: 10,
+  reducer: ee.Reducer.sum()
+});
+print(areaChart,'Band sum values by class');
 ```
+At the end, your imports should look like this:
 
 
+
+The remained of your script should look like this:
+```javascript
+//Setup
+var WallisLake = ee.Geometry.Point([152.5, -32.28]);
+Map.centerObject(WallisLake, 12);
+
+//Access imagecollection
+var S2 = ee.ImageCollection("COPERNICUS/S2_SR");
+
+//Filter imagecollection
+S2 = S2.filterBounds(WallisLake).filterDate('2018-12-01','2019-03-01').filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',10));
+
+//Calculate median image
+var S2median = S2.median()
+    .setDefaultProjection('EPSG:4326', null, 10)
+    .select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8','B11']);
+
+//Calculate NDWI and create mask
+var NDWI = S2median.normalizedDifference(['B3','B11']);
+var water = NDWI.gte(0);
+
+//Update median image mask
+var S2masked = S2median.updateMask(water);
+S2masked = S2masked.clip(WallisLakeBoundary);
+
+//Divide ground truth data into training and validation
+var groundTruth = GroundTruthData.randomColumn();
+var training = groundTruth.filter(ee.Filter.gt('random', 0.4));
+var validation = groundTruth.filter(ee.Filter.lte('random', 0.4));
+
+//Classify image
+var trainingRegions = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).sampleRegions(training);
+var RF = ee.Classifier.smileRandomForest(100).train(trainingRegions, 'label');
+var classified = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).classify(RF);
+
+//Create simplified results for viewing
+var classifiedFiltered = classified.focal_mode();
+
+//Validate classification results
+validation = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).sampleRegions(validation);
+validation = validation.classify(RF);
+var errorMatrix = validation.errorMatrix('label', 'classification');
+print(errorMatrix,'Error Matrix');
+
+//Calculate accuracy and kappa coefficient
+var accuracy = errorMatrix.accuracy();
+var kappa = errorMatrix.kappa();
+print(accuracy,'Accuracy');
+print(kappa,'Kappa coefficient');
+
+//Calculate area of classes
+var areaChart = ui.Chart.image.byClass({
+  image: ee.Image.pixelArea().addBands(classified),
+  classBand: 'classification', 
+  region: WallisLakeBoundary,
+  scale: 10,
+  reducer: ee.Reducer.sum()
+});
+print(areaChart,'Band sum values by class');
+
+//Add layers to map
+Map.addLayer(S2masked,S2VisParam);
+Map.addLayer(classified,classVisParam);
+Map.addLayer(classifiedFiltered,classVisParam);
+```
