@@ -34,3 +34,5 @@ Map.centerObject(WallisLake, 12);
 For full explanations of these functions, see the mangrove dieback exercise.
 
 Next, we will load two datasets into GEE - our field observations, and a study area boundary.
+
+Download the two shapefiles from
