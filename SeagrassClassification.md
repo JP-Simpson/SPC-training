@@ -24,7 +24,7 @@ We will use supervised image classification to distinguish areas of each of thes
 ### Exercise instructions
 #### Getting started
 
-Open GEE code editor to a new script. **Save** your script as **WallisLakeClassification** or similar. **Remember to save your script regularly so you do not lose any work**.
+Open GEE code editor and select **New>File** in the **Scripts** tab. **Save** your new script as **WallisLakeClassification** or similar. **Remember to save your script regularly so you do not lose any work**.
 
 First, we will add a point to the map representing Wallis Lake, then centre our map on it.
 ```javascript
@@ -60,8 +60,16 @@ Now, add both the **GroundTruthData** and **WallisLakeBoundary** assets to your 
 
 ![Import assets into script](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportIntoScript.png)
 
+After importing, your shapefile assets will appear like this in the **Imports** section of your script:
+
+![Import section default names](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportedTables.PNG)
+
+Click where the text says **table** and **table2** to change the variables to the correct names:
+
+![Correct imported table names](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportedTablesNamesChanged.PNG)
+
 #### Accessing Sentinel-2 data
-Sentinel-2 refers to a European Space Agency (ESA) Earth Observation mission involving sensors mounted on two satellites, called Sentinel-2A MSI and Sentinel-2B MSI. It provides remote sensing data in the visible, near-infrared, and shortwave infrared parts of the spectrum, at a spatial resolution ranging from 10m to 60m depending upon spectral band. You can read more about the Sentinel-2 mission [here](https://sentinel.esa.int/web/sentinel/missions/sentinel-2).
+Sentinel-2 refers to a European Space Agency (ESA) Earth Observation mission involving sensors mounted on two satellites, Sentinel-2A and Sentinel-2B. It provides remote sensing data in the visible, near-infrared, and shortwave infrared parts of the spectrum, at a spatial resolution ranging from 10m to 60m depending upon spectral band. You can read more about the Sentinel-2 mission [here](https://sentinel.esa.int/web/sentinel/missions/sentinel-2).
 
 For this analysis, we are going to access the Sentinel-2 image collection, filter it to images over our site, and then focus on images with little cloud cover captured in the summer of 2018-19.
 
@@ -128,7 +136,15 @@ The result of this will include only water areas. However, we have also included
 ```javascript
 S2masked = S2masked.clip(WallisLakeBoundary);
 ```
-Add your layer to your map, and set visualisation parameters. Try using the following parameters:
+Add your layer to your map:
+```javascript
+Map.addLayer(S2masked);
+```
+Set visualisation parameters by clicking on **Layers** in the top right of the map window, then selecting the options symbol:
+
+![Visualisation parameters options symbol](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/VisualisationOptions.PNG)
+
+Try using the following parameters:
 
 ![Visualisation parameters](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/VisParam.png)
 
