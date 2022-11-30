@@ -13,7 +13,7 @@ We are going to apply approach 2, supervised classification. This allows us, in 
 ### About the field site
 Wallis Lake is a barrier estuary in NSW, approximately 200 km north-northeast of Sydney. It covers a total area of about 100 km<sup>2</sup> and is about 25 km long. Two towns, Forster and Tuncurry, are at the mouth of the estuary where it meets the Pacific Ocean. Much of the rest of the lake is bordered by rural and bushland areas, including two national parks: Wallingat National Park to the west, and Booti Booti National Park to the east.
 
-As well as being popular for recreation, camping, and fishing, Wallis Lake is home to some of NSW's most extensive seagrass beds. Seagrasses are flower plants which can grow submerged in marine water. They play a significant ecological role in coastal areas, acting as habitat and shelter for marine fauna, preventing erosion, sequestering CO<sub>2</sub> from the atmosphere, cleaning water, and acting as a fertile substrate for aquaculture.
+As well as being popular for recreation, camping, and fishing, Wallis Lake is home to some of NSW's most extensive seagrass beds. Seagrasses are flowering plants which can grow submerged in marine water. They play a significant ecological role in coastal areas, acting as habitat and shelter for marine fauna, preventing erosion, sequestering CO<sub>2</sub> from the atmosphere, cleaning water, and acting as a fertile substrate for aquaculture.
 
 Two seagrass species are widespread within Wallis Lake: *Zostera capricorni* and *Posidonia australis*.
 
