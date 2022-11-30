@@ -89,7 +89,7 @@ This command is **chaining** together multiple filters. These filters have the f
 |.filterDate('2018-12-01','2019-03-01')|Includes only images captured on or after the first date, and before the second date|
 |.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',10))| Uses the Sentinel-2 metadata to include only images with fewer than 10% of pixels obstructed by cloud|
 
-The resulting variable **S2** contains seven images which fit all these criteria.
+The resulting variable **S2** is an **imagecollection** containing seven images which fit all these criteria.
 
 #### Creating a median image
 
