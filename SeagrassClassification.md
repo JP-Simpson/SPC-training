@@ -54,7 +54,9 @@ In the **Upload a New Shape File Asset** window, click **Select**, then select t
 |   2   |  Posidonia  |
 |   3   |    Algae    |
 
-These assets can now be added into your script by simply clicking the **Import** arrow.
+**WallisLakeBoundary** is a shapefile with the approximate boundary of the study area. We will use this for clipping the data later.
+
+Now, add both the **GroundTruthData** and **WallisLakeBoundary** assets to your script by clicking the **Import** arrow, as shown below.
 
 ![Import assets into script](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportIntoScript.png)
 
@@ -255,7 +257,7 @@ print(areaChart,'Band sum values by class');
 ```
 At the end, your imports should look like this:
 
-![Final imports](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportIntoScript.png)
+![Final imports](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/FinalImports.png)
 
 The remained of your script should look like this:
 ```javascript
