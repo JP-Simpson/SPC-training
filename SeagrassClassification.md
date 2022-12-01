@@ -2,6 +2,8 @@
 
 This exercise will demonstrate another capability of Google Earth Engine (GEE): image classification. This will be introduced in the context of mapping two critical species of seagrass in Wallis Lake, NSW, Australia. This will use similar techniques to the previous GEE exercise, as well as demonstrating how limited field observation data can be extended across a large area using remote sensing analysis.
 
+---
+
 ### About classification
 Image classification is the process of placing remote sensing image pixels into categories based on spectral information, and in some cases other information. There are a wide array of different classification approaches and algorithms, but they can broadly be divided into three categories:
 1. **Unsupervised classification** - Unsupervised classification sorts pixels into classes based only on spectral variation between pixels. Unsupervised classification approaches are not trained (i.e. they do not use field observations to relate spectral signatures to features). They are often used in initial analysis to identify spectral variation, or for analysis of very large areas where ground truth data is unavailable.
@@ -9,6 +11,8 @@ Image classification is the process of placing remote sensing image pixels into 
 3. **Object-Based Image Analysis** - Object-based Image Analysis (OBIA) separates an image into clusters of similar pixels, before placing each cluster into a class based on its spectral properties, and in some cases, other characteristics such as shape. This is useful as it can provide a more realistic representation of the real world, which is not divided into pixels like a satellite image.
 
 We are going to apply approach 2, supervised classification. This allows us, in simple terms, to use limited field observations to map a much larger area. GEE can also be used for unsupervised or OBIA classification.
+
+---
 
 ### About the field site
 Wallis Lake is a barrier estuary in NSW, approximately 200 km north-northeast of Sydney. It covers a total area of about 100 km<sup>2</sup> and is about 25 km long. Two towns, Forster and Tuncurry, are at the mouth of the estuary where it meets the Pacific Ocean. Much of the rest of the lake is bordered by rural and bushland areas, including two national parks: Wallingat National Park to the west, and Booti Booti National Park to the east.
@@ -20,6 +24,8 @@ Two seagrass species are widespread within Wallis Lake: *Zostera capricorni* and
 *Z. capricorni* is a small, common, bright green, fast-growing species which grows in extensive beds all along the NSW coast. *P. australis* is larger, darker in colour, and grows in smaller patches. Various species of algae also grow in the estuary.
 
 We will use supervised image classification to distinguish areas of each of these species, as well as areas where the estuary floor is bare of vegetation, and areas with algae present.
+
+---
 
 ### Exercise instructions
 #### Getting started
@@ -68,6 +74,8 @@ Click where the text says **table** and **table2** to change the variables to th
 
 ![Correct imported table names](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportedTablesNamesChanged.PNG)
 
+---
+
 #### Accessing Sentinel-2 data
 Sentinel-2 refers to a European Space Agency (ESA) Earth Observation mission involving sensors mounted on two satellites, Sentinel-2A and Sentinel-2B. It provides remote sensing data in the visible, near-infrared, and shortwave infrared parts of the spectrum, at a spatial resolution ranging from 10m to 60m depending upon spectral band. You can read more about the Sentinel-2 mission [here](https://sentinel.esa.int/web/sentinel/missions/sentinel-2).
 
@@ -90,6 +98,8 @@ This command is **chaining** together multiple filters. These filters have the f
 |.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',10))| Uses the Sentinel-2 metadata to include only images with fewer than 10% of pixels obstructed by cloud|
 
 The resulting variable **S2** is an **imagecollection** containing seven images which fit all these criteria.
+
+---
 
 #### Creating a median image
 
@@ -154,6 +164,8 @@ Your image should look something like this:
 
 ![Masked image](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/S2Masked.png)
 
+---
+
 #### Dividing ground truth data into training and validation datasets
 
 Next, we want to divide our ground truth data into **training** and **validation** datasets. **Training** data will be used to train the classification algorithm, while **validation** data will be used to measure how accurate the classification was.
@@ -202,6 +214,8 @@ var training = groundTruth.filter(ee.Filter.gt('random', 0.4));
 var validation = groundTruth.filter(ee.Filter.lte('random', 0.4));
 ```
 
+---
+
 #### Training the classifier and classifying the image
 
 Now it is finally time to classify our image. First, we must train the classifier, then classify the image like this:
@@ -234,6 +248,8 @@ Remember what the classes 0-3 represent in this image:
 |   3   |    Algae    |
 
 Add your results and your original image to your map and symbolise them so that the data can be compared.
+
+---
 
 #### Cleaning up and analysing the classification results
 
@@ -271,6 +287,9 @@ var areaChart = ui.Chart.image.byClass({
 });
 print(areaChart,'Band sum values by class');
 ```
+
+---
+
 At the end, your imports should look like this:
 
 ![Final imports](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/FinalImports.png)
