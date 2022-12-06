@@ -226,6 +226,11 @@ var classified = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).clas
 ```
 The first line of code creates training regions based on our point dataset. These contain the relevant spectral information needed for the classification algorithm to function. The second line creates a **classifier** object based on an algorithm called **Random Forest**. This classifier object is the algorithm we need to produce classification results. The third line classifies the image, producing an output called **classified**.
 
+Then add the new layer to your map:
+```javascript
+Map.addLayer(classified);
+```
+
 Note that we are again filtering bands from the image, this time to remove the SWIR Band 11. This is important because there is very low reflectance across all water areas in this band, so it can interfere with the classification process.
 
 We can now add the classified image to our map. Try visualising it with the following parameters:
@@ -275,6 +280,8 @@ var kappa = errorMatrix.kappa();
 print(accuracy,'Accuracy');
 print(kappa,'Kappa coefficient');
 ```
+
+These statistics are two different ways of representing the accuracy of our results. Overall accuracy is a simple measure of the percentage of the pixels which are correctly classified. Kappa coefficient is a more advanced statistic, which provides a measure of how much better our classification performed compared to random assignment of classes.
 
 Finally, we can calculate the overall area of each class in our study area. This script produces a simplke chart showing the total area (in square metres) of all the classes in our results:
 ```javascript
@@ -328,6 +335,7 @@ var validation = groundTruth.filter(ee.Filter.lte('random', 0.4));
 var trainingRegions = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).sampleRegions(training);
 var RF = ee.Classifier.smileRandomForest(100).train(trainingRegions, 'label');
 var classified = S2masked.select(['B2', 'B3', 'B4', 'B5', 'B6', 'B7','B8']).classify(RF);
+Map.addLayer(classfied);
 
 //Create simplified results for viewing
 var classifiedFiltered = classified.focal_mode();
