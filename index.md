@@ -45,11 +45,11 @@ Download the two shapefiles [here](https://github.com/JP-Simpson/SPC-training/tr
 
 Now we will add these shapefiles as assets to GEE. Click on the **Assets** tab in the top left, then click **New > Shape files**
 
-![Assets tab in GEE](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/AssetsTab.png)
+![Assets tab in GEE](/assets/AssetsTab.png)
 
 In the **Upload a New Shape File Asset** window, click **Select**, then select the six associated files for the **GroundTruthData** shapefile. Click **Upload**, and the shapefile will appear in your **Assets** tab. Repeat this with the **WallisLakeBoundary** shapefile.
 
-![Shapefile upload](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ShapefileUpload.png)
+![Shapefile upload](/assets/ShapefileUpload.png)
 
 **GroundTruthData** represents a series of points from transects, recording the bottom cover identified at each location. This is represented by the **label** field, as such:
 
@@ -64,15 +64,15 @@ In the **Upload a New Shape File Asset** window, click **Select**, then select t
 
 Now, add both the **GroundTruthData** and **WallisLakeBoundary** assets to your script by clicking the **Import** arrow, as shown below.
 
-![Import assets into script](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportIntoScript.png)
+![Import assets into script](/assets/ImportIntoScript.png)
 
 After importing, your shapefile assets will appear like this in the **Imports** section of your script:
 
-![Import section default names](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportedTables.PNG)
+![Import section default names](/assets/ImportedTables.PNG)
 
 Click where the text says **table** and **table2** to change the variables to the correct names:
 
-![Correct imported table names](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ImportedTablesNamesChanged.PNG)
+![Correct imported table names](/assets/ImportedTablesNamesChanged.PNG)
 
 ---
 
@@ -152,17 +152,17 @@ Map.addLayer(S2masked);
 ```
 Set visualisation parameters by clicking on **Layers** in the top right of the map window, then selecting the options symbol:
 
-![Visualisation parameters options symbol](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/VisualisationOptions.PNG)
+![Visualisation parameters options symbol](/assets/VisualisationOptions.PNG)
 
 Try using the following parameters:
 
-![Visualisation parameters](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/VisParam.png)
+![Visualisation parameters](/assets/VisParam.png)
 
 Don't forget to click **import** so you can import your visualisation parameters as a variable and use them again in the future.
 
 Your image should look something like this:
 
-![Masked image](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/S2Masked.png)
+![Masked image](/assets/S2Masked.png)
 
 ---
 
@@ -235,13 +235,13 @@ Note that we are again filtering bands from the image, this time to remove the S
 
 We can now add the classified image to our map. Try visualising it with the following parameters:
 
-![Classification layer visualisation parameters](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ClassVisParam.png)
+![Classification layer visualisation parameters](/assets/ClassVisParam.png)
 
 Don't forget to click **import** so you can import your visualisation parameters as a variable and use them again in the future.
 
 Your layer should look something like this:
 
-![Initial classification output](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/ClassInitialOutput.png)
+![Initial classification output](/assets/ClassInitialOutput.png)
 
 Remember what the classes 0-3 represent in this image:
 
@@ -299,7 +299,7 @@ print(areaChart,'Band sum values by class');
 
 At the end, your imports should look like this:
 
-![Final imports](https://github.com/JP-Simpson/SPC-training/blob/main/tutorial%20assets/FinalImports.png)
+![Final imports](/assets/FinalImports.png)
 
 The remained of your script should look like this:
 ```javascript
