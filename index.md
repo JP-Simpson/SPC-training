@@ -45,7 +45,7 @@ Download the two shapefiles [here](https://github.com/JP-Simpson/SPC-training/tr
 
 Now we will add these shapefiles as assets to GEE. Click on the **Assets** tab in the top left, then click **New > Shape files**
 
-![Assets tab in GEE](/assets/AssetsTab.png)
+![Assets tab in GEE](./assets/AssetsTab.png)
 
 In the **Upload a New Shape File Asset** window, click **Select**, then select the six associated files for the **GroundTruthData** shapefile. Click **Upload**, and the shapefile will appear in your **Assets** tab. Repeat this with the **WallisLakeBoundary** shapefile.
 
